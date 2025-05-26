@@ -12,38 +12,52 @@
 <body class="bg-gradient-to-br from-blue-50 to-white min-h-screen">
     <div class="flex flex-col md:flex-row max-w-7xl w-full mx-auto min-h-[80vh]">
         <!-- Sidebar -->
-        <aside class="w-full md:w-1/4 max-w-full md:max-w-xs bg-white shadow-lg p-4 md:p-6 flex flex-col gap-4 border-b md:border-b-0 md:border-r border-gray-200">
+        <aside
+            class="w-full md:w-1/4 max-w-full md:max-w-xs bg-white shadow-lg p-4 md:p-6 flex flex-col gap-4 border-b md:border-b-0 md:border-r border-gray-200">
             <div class="flex items-center gap-3 mb-2 justify-center md:justify-start">
                 <i class="bi bi-cash-coin text-blue-600 text-2xl"></i>
                 <h2 class="text-xl font-bold text-gray-700 text-center">Sistem Rekonsiliasi PJDL
                 </h2>
             </div>
-            <div>
-                <label for="input-excel" class="block font-semibold mb-1">Unggah File Excel:</label>
-                <label for="input-excel"
-                    class="flex items-center gap-2 cursor-pointer bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition font-semibold w-full justify-center">
-                    <i class="bi bi-upload"></i>
+            <label for="input-excel"
+                class="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-400 transition overflow-hidden">
+                <i class="bi bi-upload"></i>
+                <span id="upload-text" class="truncate overflow-hidden whitespace-nowrap max-w-[80%]">
                     Upload File Excel PJDL
-                    <input type="file" id="input-excel" accept=".xlsx,.xls" class="hidden" />
-                </label>
-                <span id="file-name" class="block text-xs text-gray-500 mt-1"></span>
+                </span>
+                <input type="file" id="input-excel" accept=".xlsx,.xls" class="hidden" />
+            </label>
+
+            <div class="flex items-center gap-2">
+                <!-- Input Teks -->
+                <input id="paste-input" type="text" class="flex-1 px-2 py-2 border border-gray-300 rounded"
+                    placeholder="Tempelkan Keterangan Disini" />
+
+                <!-- Tombol Paste -->
+                <button id="btn-paste-text"
+                    class="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded shadow transition"
+                    title="Paste Teks">
+                    <i class="bi bi-clipboard"></i>
+                </button>
             </div>
             <div>
                 <label class="block font-semibold mb-1"><i class="bi bi-tags"></i> Pilih Jenis Pajak:</label>
-                <select id="jenispajak-select"
-                    class="w-full px-2 py-1 border rounded focus:ring-2 focus:ring-blue-200"></select>
+                <select id="jenispajak-select" class="w-full px-2 py-1 border rounded focus:ring-2 focus:ring-blue-200">
+                    <option value="">-- Semua Jenis Pajak --</option>
+                </select>
             </div>
             <div>
                 <label class="block font-semibold mb-1"><i class="bi bi-calendar-event"></i> Pilih Tanggal
                     Pembayaran:</label>
-                <select id="tanggal-select"
-                    class="w-full px-2 py-1 border rounded focus:ring-2 focus:ring-blue-200"></select>
+                <select id="tanggal-select" class="w-full px-2 py-1 border rounded focus:ring-2 focus:ring-blue-200">
+                    <option value="">-- Semua Tanggal --</option>
+                </select>
             </div>
             <div>
                 <label class="block font-semibold mb-1"><i class="bi bi-bank"></i> Pilih Tempat Bayar:</label>
                 <select id="tempatbayar-select"
                     class="w-full px-2 py-1 border rounded focus:ring-2 focus:ring-blue-200">
-                    <option value="">SEMUA TEMPAT BAYAR</option>
+                    <option value="">-- Semua Tempat Bayar --</option>
                     <option value="PJDLU">PJDLU</option>
                     <option value="PJDLQRIS">PJDLQRIS</option>
                     <option value="PJDLVA">PJDLVA</option>
@@ -52,9 +66,9 @@
             <div>
                 <label class="block font-semibold mb-1"><i class="bi bi-clock-history"></i> Kategori Waktu:</label>
                 <select id="waktu-select" class="w-full px-2 py-1 border rounded focus:ring-2 focus:ring-blue-200">
-                    <option value="">SEMUA TRANSAKSI</option>
-                    <option value="akhir">Akhir Pembayaran (&lt; 17:00)</option>
-                    <option value="pelimpahan">Tgl Pelimpahan (&ge; 17:00)</option>
+                    <option value="">-- Semua Transaksi --</option>
+                    <option value="akhir">Akhir Pembayaran</option>
+                    <option value="pelimpahan">Tgl Pelimpahan</option>
                 </select>
             </div>
             <div>
@@ -62,27 +76,14 @@
                     Pajak:</label>
                 <select id="uraianspajak-select"
                     class="w-full px-2 py-1 border rounded focus:ring-2 focus:ring-blue-200">
-                    <option value="">SEMUA URAIAN PAJAK</option>
+                    <option value="">-- Semua Uraian Pajak --</option>
                 </select>
-            </div>
-            <div class="flex gap-2 mt-2 items-center">
-                <label class="text-xs text-gray-600">Mode:</label>
-                <label class="text-xs flex items-center gap-1">
-                    <input type="radio" name="mode-extra-rows" id="mode-tambah" value="tambah" checked>
-                    Tambah
-                </label>
-                <label class="text-xs flex items-center gap-1">
-                    <input type="radio" name="mode-extra-rows" id="mode-kurang" value="kurang">
-                    Kurangi
-                </label>
-                <label for="input-extra-rows" class="text-xs text-gray-600 ml-2">Jumlah Baris (&lt;17:00):</label>
-                <input id="input-extra-rows" type="number" min="0" value="0" class="w-16 px-2 py-1 border rounded text-xs" />
             </div>
         </aside>
         <!-- Main Content -->
-        <main class="flex-1 md:px-4 mt-6 flex flex-col gap-6">
+        <main class="flex-1 md:px-4 mt-4 flex flex-col gap-6">
             <!-- Ringkasan -->
-            <div id="summaryCards" class="mb-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div id="summaryCards" class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="bg-blue-50 p-6 rounded-2xl shadow-md flex flex-col justify-between">
                     <p class="text-sm font-medium text-blue-700 mb-2">Total Pokok</p>
                     <div class="flex items-center justify-between">
@@ -127,10 +128,38 @@
                 </div>
             </div>
             <!-- Tabel -->
-            <div class="overflow-x-auto overflow-y-auto max-h-[60vh] bg-white rounded-lg shadow border border-gray-200">
-                <table id="excel-table" class="min-w-full table-auto border-collapse text-sm">
-                    <!-- Table content will be rendered here -->
-                </table>
+            <div>
+                <div
+                    class="flex justify-between items-center gap-2 px-4 py-2 bg-white shadow rounded border border-b-0 border-gray-200">
+                    <!-- Kiri: Radio dan Label -->
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <label class="text-xs text-gray-600">Mode:</label>
+                        <label class="text-xs flex items-center gap-1">
+                            <input type="radio" name="mode-extra-rows" id="mode-tambah" value="tambah" checked>
+                            Tambah
+                        </label>
+                        <label class="text-xs flex items-center gap-1">
+                            <input type="radio" name="mode-extra-rows" id="mode-kurang" value="kurang">
+                            Kurangi
+                        </label>
+                    </div>
+
+                    <!-- Kanan: Input Jumlah -->
+                    <div class="flex items-center gap-1">
+                        <label for="input-extra-rows" class="text-xs text-gray-600">Jumlah Baris:</label>
+                        <input id="input-extra-rows" type="number" min="0" value="0"
+                            class="w-16 px-2 py-1 border rounded text-xs text-center" />
+                    </div>
+                </div>
+
+                <!-- Scrollable Table Container -->
+                <div
+                    class="overflow-x-auto overflow-y-auto max-h-[60vh] bg-white rounded-b-lg shadow border border-gray-200 border-t-0">
+                    <table id="excel-table" class="min-w-full table-auto border-collapse text-sm">
+                        <!-- Table content here -->
+                    </table>
+                </div>
+
             </div>
         </main>
     </div>
@@ -160,6 +189,12 @@
 
         document.getElementById('input-excel').addEventListener('change', function (e) {
             const file = e.target.files[0];
+
+            // ✅ Tambahkan ini untuk mengganti teks label:
+            if (file) {
+                document.getElementById('upload-text').textContent = file.name;
+            }
+
             const reader = new FileReader();
             reader.onload = function (e) {
                 const data = new Uint8Array(e.target.result);
@@ -334,7 +369,7 @@
 
         function renderUraianPajakOptions() {
             const select = document.getElementById('uraianspajak-select');
-            select.innerHTML = '<option value="">SEMUA URAIAN PAJAK</option>';
+            select.innerHTML = '<option value="">-- Semua Uraian Pajak --</option>';
 
             const jenis = document.getElementById('jenispajak-select').value;
             const tgl = document.getElementById('tanggal-select').value;
@@ -632,6 +667,95 @@
             document.getElementById('input-extra-rows').value = 0;
         });
     </script>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const pasteInput = document.getElementById('paste-input');
+            if (!pasteInput) {
+                console.warn('Element #paste-input tidak ditemukan di halaman.');
+                return;
+            }
+
+            pasteInput.addEventListener('input', function () {
+                const inputText = this.value.trim();
+
+                if (!inputText) {
+                    document.getElementById('tempatbayar-select').value = "";
+                    document.getElementById('tanggal-select').value = "";
+                    document.getElementById('jenispajak-select').value = "";
+                    document.getElementById('uraianspajak-select').value = "";
+
+                    if (typeof filterAndRender === 'function') {
+                        filterAndRender();
+                    }
+                    return;
+                }
+
+                // ✅ Gunakan regex literal tanpa backslash ganda
+                const paymentTypeMatch = inputText.match(/PJK\s+([A-Z]+)/);
+                const paymentType = paymentTypeMatch ? paymentTypeMatch[1] : '';
+
+                const dateMatch = inputText.match(/TGL\s+(\d{8})\//);
+                let rawDate = dateMatch ? dateMatch[1] : '';
+                let formattedDate = '';
+                if (rawDate.length === 8) {
+                    const day = rawDate.slice(0, 2);
+                    const month = rawDate.slice(2, 4);
+                    const year = rawDate.slice(4);
+                    formattedDate = `${day}-${month}-${year}`;
+                }
+
+                let taxType = '';
+                if (rawDate) {
+                    const taxTypePattern = new RegExp(`${rawDate}/([A-Z]+)(PELIMPAHAN|\\s+-|$)`);
+                    const taxTypeMatch = inputText.match(taxTypePattern);
+                    taxType = taxTypeMatch ? taxTypeMatch[1] : '';
+                }
+
+                if (paymentType) {
+                    const bayarSelect = document.getElementById('tempatbayar-select');
+                    for (let opt of bayarSelect.options) {
+                        if (opt.value === paymentType) {
+                            bayarSelect.value = paymentType;
+                            break;
+                        }
+                    }
+                }
+
+                if (formattedDate) {
+                    const tglSelect = document.getElementById('tanggal-select');
+                    for (let opt of tglSelect.options) {
+                        if (opt.value === formattedDate) {
+                            tglSelect.value = formattedDate;
+                            break;
+                        }
+                    }
+                }
+
+                if (taxType) {
+                    const pajakSelect = document.getElementById('jenispajak-select');
+                    for (let opt of pajakSelect.options) {
+                        if (opt.value.toUpperCase() === taxType.toUpperCase()) {
+                            pajakSelect.value = opt.value;
+                            break;
+                        }
+                    }
+                }
+
+                if (typeof filterAndRender === 'function') {
+                    filterAndRender();
+                }
+            });
+        });
+        document.getElementById('btn-paste-text').addEventListener('click', async function () {
+            try {
+                const text = await navigator.clipboard.readText();
+                document.getElementById('paste-input').value = text;
+            } catch (err) {
+                alert("Gagal mengambil teks dari clipboard. Izinkan akses clipboard.");
+            }
+        });
+    </script>
+
 </body>
 
 </html>

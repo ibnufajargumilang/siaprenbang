@@ -25,7 +25,7 @@
       const tambahanCount = document.getElementById("tambahanCount");
 
       if (!text) {
-        fiturSelect.disabled = true;
+        document.querySelectorAll('input[name="fitur"]').forEach(r => r.disabled = true);
         tglSelect.value = "";
         bankSelect.value = "";
         bankSelect.disabled = true;
@@ -83,12 +83,12 @@
         bankSelect.value = metode;
         waktuSelect.disabled = (text === "");
         fiturSelect.value = "versi2";
-        fiturSelect.disabled = false;
+        document.querySelectorAll('input[name="fitur"]').forEach(r => r.disabled = false);
         tambahanCount.disabled = false;
       } else {
         bankSelect.disabled = true;
         bankSelect.value = "";
-        fiturSelect.disabled = true;
+        document.querySelectorAll('input[name="fitur"]').forEach(r => r.disabled = true);
       }
     }
 
@@ -145,25 +145,27 @@
       </div>
 
       <!-- Upload Excel -->
-      <div class="mb-4">
+      <div class="mb-2">
         <label for="fileExcel" class="block w-full cursor-pointer">
-          <span id="uploadLabel" class="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-400 transition
-         overflow-hidden whitespace-nowrap text-ellipsis">
+          <span id="uploadLabel"
+            class="w-full flex justify-center items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-400 transition overflow-hidden whitespace-nowrap"
+            style="text-align:center;">
             <i class="bi bi-upload"></i>
-            Upload File Excel PBB
+            <span class="truncate max-w-full" style="max-width: calc(100% - 24px);">
+              Upload File Excel PBB
+            </span>
           </span>
         </label>
         <input type="file" id="fileExcel" accept=".xlsx, .xls" class="hidden" />
       </div>
-
       <!-- Dropdown Filters -->
 
-      <div class="space-y-3">
+      <div class="flex flex-col gap-4">
         <div class="flex space-x-2 items-center">
           <input id="inputTeks" type="text" placeholder="Tempelkan Keterangan Disini" class="p-2 rounded border w-full"
             spellcheck="false" />
           <button type="button" onclick="pasteFromClipboard()"
-            class="bg-blue-600 text-white px-3 py-2 rounded hover:bg-blue-700 text-lg" title="Paste">📋</button>
+            class="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded shadow transition" title="Paste"><i class="bi bi-clipboard"></i></button>
         </div>
         <div class="flex items-center gap-2">
           <i class="bi bi-calendar text-lg text-gray-800"></i>
@@ -189,20 +191,7 @@
             <option value="lebih">TGL PELIMPAHAN</option>
           </select>
         </div>
-        <div class="flex flex-col gap-2">
-          <div id="fiturGroup" class="flex items-center gap-2">
-            <i class="bi bi-table text-lg text-gray-800"></i>
-            <select id="fiturSelect" class="p-2 rounded border flex-1 min-w-0">
-              <option value="versi2">Tambah Total Tagihan</option>
-              <option value="versi1">Kurangi Total Tagihan</option>
-            </select>
-            <input type="number" id="tambahanCount" value="0" min="0"
-              class="w-16 px-2 py-2 border border-gray-300 rounded-lg shadow-sm text-sm" />
-          </div>
-          <span class="text-[10px] text-gray-500 leading-tight mt-1 text-center">
-            Jumlah baris <span id="labelTambahanCount">ditambah</span>
-          </span>
-        </div>
+
         <div class="flex gap-2 w-full">
           <button id="btnTambah" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 flex-1">
             Tampilkan
@@ -218,7 +207,7 @@
 
     <!-- Main Content -->
     <main class="w-full md:w-3/4 px-0 md:px-4 mt-4 md:mt-0">
-      <div id="summaryCards" class="mb-6 mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div id="summaryCards" class="mb-6 mt-4 grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="bg-blue-50 p-6 rounded-2xl shadow-md flex flex-col justify-between">
           <p class="text-sm font-medium text-blue-700 mb-2">Total PBBP2</p>
           <div class="flex items-center justify-between">
@@ -259,11 +248,29 @@
           </div>
         </div>
       </div>
-      <div class="border rounded px-4 py-2 bg-white shadow">
-        <p class="mb-2 font-semibold flex items-center gap-2">
-          <i class="bi bi-list-ol text-blue-700"></i>
-          <span id="jumlahData">Jumlah Data : 0</span>
-        </p>
+      <div class="border rounded px-4 py-2 bg-white shadow">          
+        <div id="fiturGroup" class="flex flex-col gap-1 text-xs">
+          <div class="flex items-center gap-2">
+            <span class="text-gray-600">Mode:</span>
+            <div class="flex-1 min-w-0">
+              <div class="flex flex-row gap-2" id="fiturRadioGroup">
+                <label class="flex items-center gap-1">
+                  <input type="radio" name="fitur" value="versi2" checked />
+                  Tambah
+                </label>
+                <label class="flex items-center gap-1">
+                  <input type="radio" name="fitur" value="versi1" />
+                  Kurangi
+                </label>
+              </div>
+            </div>
+            <div>
+              <label for="input-extra-rows" class="text-xs text-gray-600 ml-2">Jumlah Baris:</label>
+              <input type="number" id="tambahanCount" value="0" min="0"
+                class="w-16 px-2 py-1 border rounded text-xs text-center" />
+            </div>
+          </div>
+        </div>
         <div id="tabelData" class="overflow-x-auto"></div>
       </div>
     </main>
@@ -306,9 +313,19 @@
       const file = e.target.files[0];
       const label = document.getElementById("uploadLabel");
       if (file) {
-        label.innerHTML = `<i class="bi bi-file-earmark-excel"></i> ${file.name}`;
+        label.innerHTML = `
+      <i class="bi bi-file-earmark-excel"></i>
+      <span class="truncate max-w-full" style="max-width: calc(100% - 24px);">
+        ${file.name}
+      </span>
+    `;
       } else {
-        label.innerHTML = `<i class="bi bi-upload"></i> Upload File Excel PBB`;
+        label.innerHTML = `
+      <i class="bi bi-upload"></i>
+      <span class="truncate max-w-full" style="max-width: calc(100% - 24px);">
+        Upload File Excel PBB
+      </span>
+    `;
       }
     });
 
@@ -368,15 +385,15 @@
     });
 
     document.getElementById("waktuSelect").addEventListener("change", tampilkanTabel);
-    document.getElementById("fiturSelect").addEventListener("change", () => {
-      document.getElementById("tambahanCount").value = 0;
-      tambahanCount = 0;
-      if (document.getElementById("fiturSelect").value === "versi1") {
-        document.getElementById("labelTambahanCount").textContent = "dihapus";
-      } else {
-        document.getElementById("labelTambahanCount").textContent = "ditambah";
-      }
-      tampilkanTabel();
+    document.querySelectorAll('input[name="fitur"]').forEach(radio => {
+      radio.addEventListener("change", () => {
+        document.getElementById("tambahanCount").value = 0;
+        tambahanCount = 0;
+        const value = document.querySelector('input[name="fitur"]:checked')?.value;
+        document.getElementById("labelTambahanCount").textContent =
+          value === "versi1" ? "dihapus" : "ditambah";
+        tampilkanTabel();
+      });
     });
 
     document.getElementById("tambahanCount").addEventListener("input", () => {
@@ -546,37 +563,38 @@
         `;
 
         let tableHTML = `
-          <div id="scrollContainer" class="overflow-auto max-h-[60vh]">
-          <table id="tableData" class="table-auto w-full border border-collapse border-gray-300 text-sm">
-            <thead class="bg-gray-200 sticky top-0">
+        <div id="scrollContainer" class="overflow-auto max-h-[60vh] border border-gray-300 rounded-lg shadow-sm">
+          <table id="tableData" class="table-auto w-full border-collapse text-sm">
+            <thead class="bg-gray-100 sticky top-0 shadow-md z-10">
               <tr>
-                <th class="border p-2">Pokok</th>
-                <th class="border p-2">Denda</th>
-                <th class="border p-2">Total</th>
-                <th class="border p-2">Bank</th>
-                <th class="border p-2">Tanggal Pembayaran</th>
+                <th class="border-b border-gray-300 p-3 text-right">Pokok</th>
+                <th class="border-b border-gray-300 p-3 text-right">Denda</th>
+                <th class="border-b border-gray-300 p-3 text-right">Total</th>
+                <th class="border-b border-gray-300 p-3 text-left">Bank</th>
+                <th class="border-b border-gray-300 p-3 text-left">Tanggal Pembayaran</th>
               </tr>
             </thead>
             <tbody>
-        `;
+      `;
 
-        finalData.forEach(item => {
+        finalData.forEach((item, index) => {
+          const rowBg = index % 2 === 0 ? 'bg-white' : 'bg-gray-50';
           tableHTML += `
-            <tr>
-              <td class="border p-2 text-right">${item.pokok.toLocaleString()}</td>
-              <td class="border p-2 text-right">${item.denda.toLocaleString()}</td>
-              <td class="border p-2 text-right">${item.total.toLocaleString()}</td>
-              <td class="border p-2">${item.pembayaran}</td>
-              <td class="border p-2">${item.tglpembayaran}</td>
-            </tr>
-          `;
+          <tr class="${rowBg} hover:bg-green-50 transition-colors cursor-default">
+            <td class="border-b border-gray-200 p-3 text-right">${item.pokok.toLocaleString()}</td>
+            <td class="border-b border-gray-200 p-3 text-right">${item.denda.toLocaleString()}</td>
+            <td class="border-b border-gray-200 p-3 text-right">${item.total.toLocaleString()}</td>
+            <td class="border-b border-gray-200 p-3 text-left">${item.pembayaran}</td>
+            <td class="border-b border-gray-200 p-3 text-left">${item.tglpembayaran}</td>
+          </tr>
+        `;
         });
 
         tableHTML += `
-            </tbody>
-          </table>
-          </div>
-        `;
+          </tbody>
+        </table>
+      </div>
+    `;
 
         document.getElementById("tabelData").innerHTML = tableHTML;
         document.getElementById("jumlahData").textContent = `Jumlah Data : ${finalData.length}`;
@@ -594,7 +612,7 @@
       document.getElementById("tglSelect").value = "";
       document.getElementById("bankSelect").value = "";
       document.getElementById("waktuSelect").value = "semua";
-      document.getElementById("fiturSelect").value = "versi2";
+      document.querySelector('input[name="fitur"][value="versi2"]').checked = true;
       document.getElementById("tambahanCount").value = 0;
       document.getElementById("tabelData").innerHTML = "";
       document.getElementById("jumlahData").textContent = "Jumlah Data : 0";
@@ -642,7 +660,7 @@
       const selectedDate = document.getElementById("tglSelect").value;
       const selectedKategori = document.getElementById("bankSelect").value;
       const waktuFilter = document.getElementById("waktuSelect").value;
-      const fitur = document.getElementById("fiturSelect").value;
+      const fitur = document.querySelector('input[name="fitur"]:checked')?.value;
 
       if (!selectedDate || !selectedKategori) {
         document.getElementById("tabelData").innerHTML = "";
