@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SiRekon PBB | Sistem Rekonsiliasi PBB</title>
+  <link rel="stylesheet" href="../assets/icons/bootstrap-icons.min.css">
   <script src="../assets/tailwind.js"></script>
   <script src="../assets/xlsx.full.min.js"></script>
   <script>
@@ -101,21 +102,12 @@
     window.addEventListener("DOMContentLoaded", () => {
       document.getElementById("inputTeks").addEventListener("input", extractInfo);
 
-      document.getElementById("tambahanCount").addEventListener("input", () => {
-        const selectedDate = document.getElementById("tglSelect").value;
-        const selectedKategori = document.getElementById("bankSelect").value;
-        const waktuFilter = document.getElementById("waktuSelect").value;
-        const fitur = document.getElementById("fiturSelect").value;
-
-        // Hanya jalankan jika nilai input valid
-        const tambahan = parseInt(document.getElementById("tambahanCount").value);
-        if (isNaN(tambahan) || tambahan < 0) return;
-
-        if (fitur === "versi1") {
-          tampilkanTabelVersi1(selectedDate, selectedKategori, waktuFilter);
-        } else {
-          tampilkanTabelVersi2(selectedDate, selectedKategori, waktuFilter);
-        }
+      // Tampilkan tabel hanya saat tombol ditekan
+      document.getElementById("btnTambah").addEventListener("click", () => {
+        const tambahanInput = document.getElementById("tambahanCount");
+        const tambahan = parseInt(tambahanInput.value) || 0;
+        tambahanCount = tambahan;
+        tampilkanTabel();
       });
     });
   </script>
@@ -127,7 +119,7 @@
         input.value = text;
         input.dispatchEvent(new Event('input')); // Trigger input event jika ada logic terhubung
         waktuSelect.value = "kurang";
-        
+
         tambahanCount = 0;
       } catch (err) {
         alert("Gagal menempel dari clipboard: " + err);
@@ -137,23 +129,31 @@
 
 </head>
 
-<body class="bg-gray-50 text-gray-800 p-4">
+<body class="bg-gradient-to-br from-blue-50 to-white min-h-screen">
 
   <div id="toast"
     class="fixed bottom-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg opacity-0 transition-opacity duration-300 z-50">
   </div>
 
-  <div class="flex flex-col md:flex-row mx-auto">
+  <div class="flex flex-col md:flex-row max-w-7xl w-full mx-auto min-h-[80vh]">
     <!-- Sidebar -->
-    <aside class="md:w-1/4 w-full p-4 bg-gray-100 rounded-md">
-      <h2 class="text-2xl font-bold text-center mb-6">Sistem Rekonsiliasi PBB</h2>
-
-      <p id="jumlahData" class="mb-2 font-semibold text-center"></p>
+    <aside
+      class="w-full md:w-1/4 max-w-full md:max-w-xs bg-white shadow-lg p-6 flex flex-col gap-2 border-b md:border-b-0 md:border-r border-gray-200 mx-auto md:mx-0">
+      <div class="flex items-center gap-3 mb-2 justify-center">
+        <i class="bi bi-bank2 text-blue-700 text-2xl"></i>
+        <h2 class="text-xl font-bold text-gray-700">Sistem Rekonsiliasi PBB</h2>
+      </div>
 
       <!-- Upload Excel -->
       <div class="mb-4">
-        <label class="text-sm font-medium block mb-1">Unggah File Excel:</label>
-        <input type="file" id="fileExcel" accept=".xlsx, .xls" class="border rounded px-3 py-1 w-full" />
+        <label for="fileExcel" class="block w-full cursor-pointer">
+          <span id="uploadLabel" class="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-400 transition
+         overflow-hidden whitespace-nowrap text-ellipsis">
+            <i class="bi bi-upload"></i>
+            Upload File Excel PBB
+          </span>
+        </label>
+        <input type="file" id="fileExcel" accept=".xlsx, .xls" class="hidden" />
       </div>
 
       <!-- Dropdown Filters -->
@@ -165,51 +165,107 @@
           <button type="button" onclick="pasteFromClipboard()"
             class="bg-blue-600 text-white px-3 py-2 rounded hover:bg-blue-700 text-lg" title="Paste">📋</button>
         </div>
-
-
-        <select id="tglSelect" class="p-2 rounded border w-full">
-          <option value="">-- Pilih Tanggal Pembayaran --</option>
-        </select>
-
-        <select id="bankSelect" class="p-2 rounded border w-full" disabled>
-          <option value="">-- Pilih Kategori Bank --</option>
-          <option value="PBBU">PBBU</option>
-          <option value="PBBQRIS">PBBQRIS</option>
-          <option value="PBBVA">PBBVA</option>
-          <option value="PBBKOLEKTIF">PBBKOLEKTIF</option>
-        </select>
-
-        <select id="waktuSelect" class="p-2 rounded border w-full" disabled>
-          <option value="semua">SEMUA TRANSAKSI</option>
-          <option value="kurang">AKHIR PEMBAYARAN</option>
-          <option value="lebih">TGL PELIMPAHAN</option>
-        </select>
-      </div>
-
-      <!-- Buttons -->
-      <div class="flex flex-wrap gap-2 mt-4">
-        <button id="btnReset"
-          class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 w-full">LIHAT/ULANG</button>
-        <input type="number" id="tambahanCount" value="0" min="0" disabled class="w-full max-w-xs px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-        <select id="fiturSelect" class="p-2 rounded border w-full" disabled>
-          <option value="versi2">Tambah Total Tagihan</option>
-          <option value="versi1">Kurangi Total Tagihan</option>
-        </select>
+        <div class="flex items-center gap-2">
+          <i class="bi bi-calendar text-lg text-gray-800"></i>
+          <select id="tglSelect" class="p-2 rounded border w-full">
+            <option value="">Pilih Tanggal Pembayaran</option>
+          </select>
+        </div>
+        <div class="flex items-center gap-2">
+          <i class="bi bi-bank text-lg text-gray-800"></i>
+          <select id="bankSelect" class="p-2 rounded border w-full" disabled>
+            <option value="">Pilih Kategori Bank</option>
+            <option value="PBBU">PBBU</option>
+            <option value="PBBQRIS">PBBQRIS</option>
+            <option value="PBBVA">PBBVA</option>
+            <option value="PBBKOLEKTIF">PBBKOLEKTIF</option>
+          </select>
+        </div>
+        <div class="flex items-center gap-2">
+          <i class="bi bi-clock-history text-lg text-gray-800"></i>
+          <select id="waktuSelect" class="p-2 rounded border w-full" disabled>
+            <option value="semua">SEMUA TRANSAKSI</option>
+            <option value="kurang">AKHIR PEMBAYARAN</option>
+            <option value="lebih">TGL PELIMPAHAN</option>
+          </select>
+        </div>
+        <div class="flex flex-col gap-2">
+          <div id="fiturGroup" class="flex items-center gap-2">
+            <i class="bi bi-table text-lg text-gray-800"></i>
+            <select id="fiturSelect" class="p-2 rounded border flex-1 min-w-0">
+              <option value="versi2">Tambah Total Tagihan</option>
+              <option value="versi1">Kurangi Total Tagihan</option>
+            </select>
+            <input type="number" id="tambahanCount" value="0" min="0"
+              class="w-16 px-2 py-2 border border-gray-300 rounded-lg shadow-sm text-sm" />
+          </div>
+          <span class="text-[10px] text-gray-500 leading-tight mt-1 text-center">
+            Jumlah baris <span id="labelTambahanCount">ditambah</span>
+          </span>
+        </div>
         <div class="flex gap-2 w-full">
           <button id="btnTambah" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 flex-1">
             Tampilkan
           </button>
-          <button id="btnKurang" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 flex-1">
-            Mundur
-          </button>
         </div>
-
+        <button id="btnReset"
+          class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 w-full flex items-center justify-center gap-2">
+          <i class="bi bi-arrow-repeat text-lg"></i>
+          Reset Filter
+        </button>
       </div>
     </aside>
 
     <!-- Main Content -->
-    <main class="md:w-3/4 w-full px-4">
-      <div id="tabelData" class="overflow-auto border rounded p-4 bg-white shadow"></div>
+    <main class="w-full md:w-3/4 px-0 md:px-4 mt-4 md:mt-0">
+      <div id="summaryCards" class="mb-6 mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-blue-50 p-6 rounded-2xl shadow-md flex flex-col justify-between">
+          <p class="text-sm font-medium text-blue-700 mb-2">Total PBBP2</p>
+          <div class="flex items-center justify-between">
+            <p class="text-2xl font-bold text-blue-900">0</p>
+            <button disabled class="ml-3 text-blue-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2M8 16v2a2 2 0 002 2h8a2 2 0 002-2v-8a2 2 0 00-2-2h-2" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="bg-yellow-50 p-6 rounded-2xl shadow-md flex flex-col justify-between">
+          <p class="text-sm font-medium text-yellow-700 mb-2">Pendapatan Denda PBBP2</p>
+          <div class="flex items-center justify-between">
+            <p class="text-2xl font-bold text-yellow-900">0</p>
+            <button disabled class="ml-3 text-yellow-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2M8 16v2a2 2 0 002 2h8a2 2 0 002-2v-8a2 2 0 00-2-2h-2" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="bg-green-50 p-6 rounded-2xl shadow-md flex flex-col justify-between">
+          <p class="text-sm font-medium text-green-700 mb-2">Total Mutasi Kredit</p>
+          <div class="flex items-center justify-between">
+            <p class="text-2xl font-bold text-green-900">0</p>
+            <button disabled class="ml-3 text-green-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2M8 16v2a2 2 0 002 2h8a2 2 0 002-2v-8a2 2 0 00-2-2h-2" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="border rounded px-4 py-2 bg-white shadow">
+        <p class="mb-2 font-semibold flex items-center gap-2">
+          <i class="bi bi-list-ol text-blue-700"></i>
+          <span id="jumlahData">Jumlah Data : 0</span>
+        </p>
+        <div id="tabelData" class="overflow-x-auto"></div>
+      </div>
     </main>
   </div>
 
@@ -231,6 +287,7 @@
   <script>
     let allData = [];
     let tambahanCount = 0;
+    let lastState = null; // Untuk tombol Mundur
 
     const kategoriBankMap = {
       PBBU: [
@@ -244,6 +301,16 @@
       PBBVA: ["Bank BJB - Virtual Account"],
       PBBKOLEKTIF: ["Loket Bank BJB - Kolektif"]
     };
+
+    document.getElementById("fileExcel").addEventListener("change", function (e) {
+      const file = e.target.files[0];
+      const label = document.getElementById("uploadLabel");
+      if (file) {
+        label.innerHTML = `<i class="bi bi-file-earmark-excel"></i> ${file.name}`;
+      } else {
+        label.innerHTML = `<i class="bi bi-upload"></i> Upload File Excel PBB`;
+      }
+    });
 
     document.getElementById("fileExcel").addEventListener("change", function (e) {
       const file = e.target.files[0];
@@ -272,7 +339,7 @@
         });
 
         const select = document.getElementById("tglSelect");
-        select.innerHTML = `<option value="">-- Pilih Tanggal Pembayaran --</option>`;
+        select.innerHTML = `<option value="">Pilih Tanggal Pembayaran</option>`;
         Object.keys(tanggalMap).sort().forEach(tgl => {
           const option = document.createElement("option");
           option.value = tgl;
@@ -289,7 +356,7 @@
       document.getElementById("bankSelect").value = "";
       document.getElementById("waktuSelect").value = "semua";
       document.getElementById("tabelData").innerHTML = "";
-      document.getElementById("jumlahData").textContent = "";
+      document.getElementById("jumlahData").textContent = "Jumlah Data : 0";
       document.getElementById("fiturSelect").disabled = false;
       document.getElementById("tambahanCount").disabled = false;
     });
@@ -302,11 +369,20 @@
 
     document.getElementById("waktuSelect").addEventListener("change", tampilkanTabel);
     document.getElementById("fiturSelect").addEventListener("change", () => {
-      tambahanCount = 0; // reset tambahanCount saat ganti fitur
+      document.getElementById("tambahanCount").value = 0;
+      tambahanCount = 0;
+      if (document.getElementById("fiturSelect").value === "versi1") {
+        document.getElementById("labelTambahanCount").textContent = "dihapus";
+      } else {
+        document.getElementById("labelTambahanCount").textContent = "ditambah";
+      }
       tampilkanTabel();
     });
 
-
+    document.getElementById("tambahanCount").addEventListener("input", () => {
+      tambahanCount = parseInt(document.getElementById("tambahanCount").value) || 0;
+      tampilkanTabel();
+    });
 
     // Fitur 1: Potong data utama sesuai tambahanCount
     function tampilkanTabelVersi1(selectedDate, selectedKategori, waktuFilter) {
@@ -423,61 +499,53 @@
 
       if (finalData.length > 0) {
         let totalPokok = 0, totalDenda = 0, totalTagihan = 0;
-
         finalData.forEach(item => {
           totalPokok += parseFloat(item.pokok) || 0;
           totalDenda += parseFloat(item.denda) || 0;
           totalTagihan += parseFloat(item.total) || 0;
         });
 
-        let tableHTML = `
-          <div class="mb-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Card -->
-            <div class="bg-blue-50 p-6 rounded-2xl shadow-md flex flex-col justify-between">
-              <p class="text-sm font-medium text-blue-700 mb-2">Total PBBP2</p>
-              <div class="flex items-center justify-between">
-                <p class="text-2xl font-bold text-blue-900">${totalPokok.toLocaleString()}</p>
-                <button onclick="copyToClipboard('${totalPokok}')" class="ml-3 text-blue-500 hover:text-blue-700">
-                  <!-- Ikon salin -->
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2M8 16v2a2 2 0 002 2h8a2 2 0 002-2v-8a2 2 0 00-2-2h-2" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-
-            <!-- Denda -->
-            <div class="bg-yellow-50 p-6 rounded-2xl shadow-md flex flex-col justify-between">
-              <p class="text-sm font-medium text-yellow-700 mb-2">Pendapatan Denda PBBP2</p>
-              <div class="flex items-center justify-between">
-                <p class="text-2xl font-bold text-yellow-900">${totalDenda.toLocaleString()}</p>
-                <button onclick="copyToClipboard('${totalDenda}')" class="ml-3 text-yellow-500 hover:text-yellow-700">
-                  <!-- Ikon salin -->
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2M8 16v2a2 2 0 002 2h8a2 2 0 002-2v-8a2 2 0 00-2-2h-2" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-
-            <!-- Tagihan -->
-            <div class="bg-green-50 p-6 rounded-2xl shadow-md flex flex-col justify-between">
-              <p class="text-sm font-medium text-green-700 mb-2">Total Mutasi Kredit</p>
-              <div class="flex items-center justify-between">
-                <p class="text-2xl font-bold text-green-900">${totalTagihan.toLocaleString()}</p>
-                <button onclick="copyToClipboard('${totalTagihan}')" class="ml-3 text-green-500 hover:text-green-700">
-                  <!-- Ikon salin -->
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2M8 16v2a2 2 0 002 2h8a2 2 0 002-2v-8a2 2 0 00-2-2h-2" />
-                  </svg>
-                </button>
-              </div>
+        // Tampilkan ringkasan di luar tabel
+        document.getElementById("summaryCards").innerHTML = `
+          <div class="bg-blue-50 p-6 rounded-2xl shadow-md flex flex-col justify-between">
+            <p class="text-sm font-medium text-blue-700 mb-2">Total PBBP2</p>
+            <div class="flex items-center justify-between">
+              <p class="text-2xl font-bold text-blue-900">${totalPokok.toLocaleString()}</p>
+              <button onclick="copyToClipboard('${totalPokok}')" class="ml-3 text-blue-500 hover:text-blue-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2M8 16v2a2 2 0 002 2h8a2 2 0 002-2v-8a2 2 0 00-2-2h-2" />
+                </svg>
+              </button>
             </div>
           </div>
+          <div class="bg-yellow-50 p-6 rounded-2xl shadow-md flex flex-col justify-between">
+            <p class="text-sm font-medium text-yellow-700 mb-2">Pendapatan Denda PBBP2</p>
+            <div class="flex items-center justify-between">
+              <p class="text-2xl font-bold text-yellow-900">${totalDenda.toLocaleString()}</p>
+              <button onclick="copyToClipboard('${totalDenda}')" class="ml-3 text-yellow-500 hover:text-yellow-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2M8 16v2a2 2 0 002 2h8a2 2 0 002-2v-8a2 2 0 00-2-2h-2" />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="bg-green-50 p-6 rounded-2xl shadow-md flex flex-col justify-between">
+            <p class="text-sm font-medium text-green-700 mb-2">Total Mutasi Kredit</p>
+            <div class="flex items-center justify-between">
+              <p class="text-2xl font-bold text-green-900">${totalTagihan.toLocaleString()}</p>
+              <button onclick="copyToClipboard('${totalTagihan}')" class="ml-3 text-green-500 hover:text-green-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2M8 16v2a2 2 0 002 2h8a2 2 0 002-2v-8a2 2 0 00-2-2h-2" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        `;
 
+        let tableHTML = `
           <div id="scrollContainer" class="overflow-auto max-h-[60vh]">
           <table id="tableData" class="table-auto w-full border border-collapse border-gray-300 text-sm">
             <thead class="bg-gray-200 sticky top-0">
@@ -511,18 +579,64 @@
         `;
 
         document.getElementById("tabelData").innerHTML = tableHTML;
-        document.getElementById("jumlahData").textContent = `Jumlah Data: ${finalData.length}`;
+        document.getElementById("jumlahData").textContent = `Jumlah Data : ${finalData.length}`;
       } else {
         document.getElementById("tabelData").innerHTML = `<p class="text-center text-gray-500 mt-4">Data tidak tersedia untuk filter tersebut.</p>`;
-        document.getElementById("jumlahData").textContent = "";
+        document.getElementById("jumlahData").textContent = "Jumlah Data : 0";
       }
     }
 
-    document.getElementById("btnTambah").addEventListener("click", () => { tambahanCount++; tampilkanTabel(); });
-    document.getElementById("btnKurang").addEventListener("click", () => {
-      if (tambahanCount > 0) tambahanCount--; tampilkanTabel();
+    document.getElementById("btnTambah").addEventListener("click", () => {
+      tampilkanTabel();
     });
-    document.getElementById("btnReset").addEventListener("click", () => { tambahanCount = 0; tampilkanTabel(); });
+
+    document.getElementById("btnReset").addEventListener("click", () => {
+      document.getElementById("tglSelect").value = "";
+      document.getElementById("bankSelect").value = "";
+      document.getElementById("waktuSelect").value = "semua";
+      document.getElementById("fiturSelect").value = "versi2";
+      document.getElementById("tambahanCount").value = 0;
+      document.getElementById("tabelData").innerHTML = "";
+      document.getElementById("jumlahData").textContent = "Jumlah Data : 0";
+      document.getElementById("summaryCards").innerHTML = `
+    <div class="bg-blue-50 p-6 rounded-2xl shadow-md flex flex-col justify-between">
+      <p class="text-sm font-medium text-blue-700 mb-2">Total PBBP2</p>
+      <div class="flex items-center justify-between">
+        <p class="text-2xl font-bold text-blue-900">0</p>
+        <button disabled class="ml-3 text-blue-300">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2M8 16v2a2 2 0 002 2h8a2 2 0 002-2v-8a2 2 0 00-2-2h-2" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="bg-yellow-50 p-6 rounded-2xl shadow-md flex flex-col justify-between">
+      <p class="text-sm font-medium text-yellow-700 mb-2">Pendapatan Denda PBBP2</p>
+      <div class="flex items-center justify-between">
+        <p class="text-2xl font-bold text-yellow-900">0</p>
+        <button disabled class="ml-3 text-yellow-300">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2M8 16v2a2 2 0 002 2h8a2 2 0 002-2v-8a2 2 0 00-2-2h-2" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="bg-green-50 p-6 rounded-2xl shadow-md flex flex-col justify-between">
+      <p class="text-sm font-medium text-green-700 mb-2">Total Mutasi Kredit</p>
+      <div class="flex items-center justify-between">
+        <p class="text-2xl font-bold text-green-900">0</p>
+        <button disabled class="ml-3 text-green-300">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2M8 16v2a2 2 0 002 2h8a2 2 0 002-2v-8a2 2 0 00-2-2h-2" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  `;
+    });
 
     function tampilkanTabel() {
       const selectedDate = document.getElementById("tglSelect").value;
@@ -532,7 +646,7 @@
 
       if (!selectedDate || !selectedKategori) {
         document.getElementById("tabelData").innerHTML = "";
-        document.getElementById("jumlahData").textContent = "";
+        document.getElementById("jumlahData").textContent = "Jumlah Data : 0";
         return;
       }
 

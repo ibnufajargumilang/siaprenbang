@@ -6,62 +6,146 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard Program SIAP Renbang</title>
   <link rel="stylesheet" href="assets/icons/bootstrap-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <script src="assets/tailwind.js"></script>
+  <style>
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      background: linear-gradient(135deg, #e0e7ff 0%, #f0f4ff 100%);
+      min-height: 100vh;
+    }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.7);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+      backdrop-filter: blur(8px);
+      border-radius: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .glass:hover {
+      transform: translateY(-6px) scale(1.04);
+      box-shadow: 0 16px 40px 0 rgba(80, 72, 229, 0.18);
+      border-color: #6366f1;
+    }
+
+    .ai-gradient {
+      background: linear-gradient(90deg, #6366f1 0%, #a21caf 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .ai-shadow {
+      text-shadow: 0 2px 16px #a5b4fc88;
+    }
+
+    h1[style] {
+      letter-spacing: 1px;
+      -webkit-text-stroke: 1px #6366f1;
+    }
+  </style>
 </head>
 
-<body class="bg-gray-100 font-sans min-h-screen">
+<body class="min-h-screen">
 
   <!-- Header -->
-  <header class="bg-blue-700 text-white py-3 px-4 rounded-b-2xl shadow-lg">
-    <div class="text-center">
-      👋
-      <h1 class="text-2xl md:text-3xl font-bold tracking-wide">SIAP Renbang</h1>
-      <p class="text-sm md:text-base text-blue-100 mt-1 italic">Sistem Aplikasi Pendukung Renbang</p>
+  <header class="bg-gradient-to-r from-indigo-700 via-purple-700 to-fuchsia-700 text-white py-6 px-4 shadow-lg rounded-b-3xl mb-6">
+    <div class="flex flex-col items-center gap-2">
+      <div class="flex items-center gap-3">
+        <span class="relative flex items-center justify-center">
+          <span class="absolute w-12 h-12 rounded-full bg-gradient-to-tr from-indigo-400 via-purple-400 to-fuchsia-400 opacity-30 blur-lg"></span>
+          <i class="bi bi-cpu text-4xl md:text-5xl text-white drop-shadow-lg" style="filter: drop-shadow(0 0 8px #a21caf);"></i>
+        </span>
+        <h1 class="text-3xl md:text-4xl font-extrabold tracking-wide"
+            style="
+              color: #fff;
+              text-shadow:
+                0 2px 16px #a5b4fc,
+                0 0 2px #4f46e5,
+                0 0 8px #a21caf,
+                0 0 2px #000,
+                1px 1px 0 #6366f1;
+              -webkit-text-stroke: 1.5px #6366f1;
+              letter-spacing: 1.5px;
+            ">
+          SIAP Renbang
+        </h1>
+      </div>
+      <p class="text-base md:text-lg text-indigo-100 mt-1 italic font-medium">
+        Sistem Aplikasi Pendukung Renbang
+      </p>
     </div>
   </header>
 
   <!-- Menu Grid -->
-  <main class="p-6 grid grid-cols-2 md:grid-cols-5 gap-6 items-stretch">
-    <!-- Menu Item -->
-    <a href="SiRekonPBB" class="group h-full">
-      <div
-        class="bg-white p-4 rounded-2xl shadow-md text-center h-full flex flex-col justify-between hover:shadow-xl hover:scale-105 transition duration-200">
-        <div>
-          <div class="text-blue-600 text-5xl mb-2">
-            <i class="bi bi-houses-fill"></i>
+  <main class="p-4 md:p-8 max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Menu Item -->
+      <a href="SiRekonPBB" class="group h-full">
+        <div class="glass text-center h-full flex flex-col justify-between p-6">
+          <div>
+            <div class="text-indigo-600 text-5xl mb-3 drop-shadow-lg">
+              <i class="bi bi-bank2"></i>
+            </div>
+            <div class="text-xl md:text-2xl font-semibold ai-gradient">SiRekon PBB</div>
+            <p class="text-xs md:text-sm font-medium italic text-gray-500 mt-1">Sistem Rekonsiliasi PBB</p>
           </div>
-          <div class="text-lg md:text-xl font-semibold">SiRekon PBB</div>
-          <p class="text-xs md:text-sm font-medium italic text-gray-500">Sistem Rekonsiliasi PBB</p>
-        </div>
-      </div>
-    </a>
-    <a href="SiNkronLRA" class="group h-full">
-      <div
-        class="bg-white p-4 rounded-2xl shadow-md text-center h-full flex flex-col justify-between hover:shadow-xl hover:scale-105 transition duration-200">
-        <div>
-          <div class="text-blue-600 text-5xl mb-2">
-            <i class="bi bi-arrow-repeat"></i>
+          <div class="mt-4 opacity-0 group-hover:opacity-100 transition">
+            <span class="inline-block px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-xs font-semibold shadow">Digital Tax</span>
           </div>
-          <div class="text-lg md:text-xl font-semibold">SiNkron LRA</div>
-          <p class="text-xs md:text-sm font-medium italic text-gray-500">Sistem Sinkronisasi LRA</p>
         </div>
-      </div>
-    </a>
-
-    <!-- Menu Pengaturan -->
-    <div class="group h-full">
-      <div
-        class="bg-white p-4 rounded-2xl shadow-md text-center h-full flex flex-col justify-between hover:shadow-xl hover:scale-105 transition duration-200">
-        <div>
-          <div class="text-blue-600 text-4xl mb-2">⚙️</div>
-          <div class="text-lg md:text-xl font-semibold">Pengaturan</div>
-          <p class="text-xs md:text-sm font-medium italic text-gray-500">Konfigurasi Sistem</p>
+      </a>
+      <a href="SiRekonPJDL" class="group h-full">
+        <div class="glass text-center h-full flex flex-col justify-between p-6">
+          <div>
+            <div class="text-fuchsia-600 text-5xl mb-3 drop-shadow-lg">
+              <i class="bi bi-cash-coin"></i>
+            </div>
+            <div class="text-xl md:text-2xl font-semibold ai-gradient">SiRekon PJDL</div>
+            <p class="text-xs md:text-sm font-medium italic text-gray-500 mt-1">Sistem Rekonsiliasi PJDL</p>
+          </div>
+          <div class="mt-4 opacity-0 group-hover:opacity-100 transition">
+            <span class="inline-block px-3 py-1 bg-fuchsia-100 text-fuchsia-700 rounded-full text-xs font-semibold shadow">Digital Tax</span>
+          </div>
+        </div>
+      </a>
+      <a href="SiNkronLRA" class="group h-full">
+        <div class="glass text-center h-full flex flex-col justify-between p-6">
+          <div>
+            <div class="text-cyan-600 text-5xl mb-3 drop-shadow-lg">
+              <i class="bi bi-arrow-repeat"></i>
+            </div>
+            <div class="text-xl md:text-2xl font-semibold ai-gradient">SiNkron LRA</div>
+            <p class="text-xs md:text-sm font-medium italic text-gray-500 mt-1">Sistem Sinkronisasi LRA</p>
+          </div>
+          <div class="mt-4 opacity-0 group-hover:opacity-100 transition">
+            <span class="inline-block px-3 py-1 bg-cyan-100 text-cyan-700 rounded-full text-xs font-semibold shadow">Easy Sync</span>
+          </div>
+        </div>
+      </a>
+      <!-- Menu Pengaturan -->
+      <div class="group h-full">
+        <div class="glass text-center h-full flex flex-col justify-between p-6">
+          <div>
+            <div class="text-violet-600 text-4xl mb-3 drop-shadow-lg">
+              <i class="bi bi-gear-wide-connected"></i>
+            </div>
+            <div class="text-xl md:text-2xl font-semibold ai-gradient">Pengaturan</div>
+            <p class="text-xs md:text-sm font-medium italic text-gray-500 mt-1">Konfigurasi Sistem</p>
+          </div>
+          <div class="mt-4 opacity-0 group-hover:opacity-100 transition">
+            <span class="inline-block px-3 py-1 bg-violet-100 text-violet-700 rounded-full text-xs font-semibold shadow">AI Settings</span>
+          </div>
         </div>
       </div>
     </div>
   </main>
 
-
+  <footer class="text-center text-xs text-gray-400 mt-10 mb-4">
+    &copy; 2025 SIAP Renbang &mdash; Powered by <span class="ai-gradient font-semibold">Digitalisasi & AI</span>
+  </footer>
 </body>
 
 </html>
