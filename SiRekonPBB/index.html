@@ -25,13 +25,11 @@
       const tambahanCount = document.getElementById("tambahanCount");
 
       if (!text) {
-        document.querySelectorAll('input[name="fitur"]').forEach(r => r.disabled = true);
         tglSelect.value = "";
         bankSelect.value = "";
         bankSelect.disabled = true;
         waktuSelect.value = "semua";
         waktuSelect.disabled = true;
-        tambahanCount.disabled = true;
         tambahanCount.value = 0;
         return;
       }
@@ -609,13 +607,13 @@
     });
 
     document.getElementById("btnReset").addEventListener("click", () => {
+      document.getElementById("inputTeks").value = "";
       document.getElementById("tglSelect").value = "";
       document.getElementById("bankSelect").value = "";
       document.getElementById("waktuSelect").value = "semua";
       document.querySelector('input[name="fitur"][value="versi2"]').checked = true;
       document.getElementById("tambahanCount").value = 0;
       document.getElementById("tabelData").innerHTML = "";
-      document.getElementById("jumlahData").textContent = "Jumlah Data : 0";
       document.getElementById("summaryCards").innerHTML = `
     <div class="bg-blue-50 p-6 rounded-2xl shadow-md flex flex-col justify-between">
       <p class="text-sm font-medium text-blue-700 mb-2">Total PBBP2</p>

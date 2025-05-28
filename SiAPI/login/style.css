@@ -1,0 +1,307 @@
+/* Authentication related styles */
+.pajak-auth-button {
+    background-color: #28a745; /* Green for login */
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-left: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.pajak-auth-button.logout {
+    background-color: #dc3545; /* Red for logout */
+}
+
+.pajak-auth-button:hover {
+    opacity: 0.9;
+}
+
+.pajak-auth-user-status {
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+
+/* Modal Styles */
+.pajak-auth-modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.6); /* Black w/ opacity */
+    display: flex; /* Use flexbox for centering */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    opacity: 0; /* Start hidden for transition */
+    transition: opacity 0.3s ease-in-out;
+}
+
+.pajak-auth-modal.show {
+    opacity: 1;
+    display: flex; /* Keep flexbox display when showing */
+}
+
+/* Styles for modal content */
+.pajak-auth-modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px;
+    position: relative; /* Needed for close button positioning */
+    transform: translateY(-20px); /* Initial state for animation */
+    transition: transform 0.3s ease-in-out;
+}
+
+.pajak-auth-modal.show .pajak-auth-modal-content {
+    transform: translateY(0); /* Final state for animation */
+}
+
+/* Close button style */
+.pajak-auth-close-button {
+    color: #aaa;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.pajak-auth-close-button:hover,
+.pajak-auth-close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Form styles within the modal */
+.pajak-auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.pajak-auth-form h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.pajak-auth-form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.pajak-auth-form-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.pajak-auth-input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+    width: 100%;
+    box-sizing: border-box; /* Include padding in width */
+}
+
+.pajak-auth-input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+}
+
+.pajak-auth-submit-button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.pajak-auth-submit-button:hover {
+    background-color: #0056b3;
+}
+
+.pajak-auth-status-message {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.9em;
+}
+
+.pajak-auth-status-error {
+    color: #dc3545; /* Red for errors */
+    font-weight: bold;
+}
+
+.pajak-auth-status-success {
+    color: #28a745; /* Green for success */
+    font-weight: bold;
+}
+
+
+/* Header and overall container styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background-color: #f4f7f6;
+    color: #333;
+}
+
+.pajak-app-header {
+    background-color: #007bff;
+    color: white;
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.pajak-app-title {
+    font-size: 1.8em;
+    font-weight: 600;
+}
+
+.pajak-app-info {
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.separator {
+    margin: 0 5px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.pajak-app-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center; /* Memusatkan form di tengah halaman */
+}
+
+/* Edit form container */
+.pajak-app-form-container {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-left: 5px solid #28a745;
+    width: 100%;
+    max-width: 600px; /* Batasi lebar untuk keterbacaan yang lebih baik */
+    box-sizing: border-box; /* Sertakan padding dalam lebar */
+}
+
+.form-title { /* Menggunakan .form-title untuk lebih spesifik */
+    color: #007bff;
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1.6em;
+}
+
+.pajak-edit-warning-message {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 0.9em;
+}
+
+.pajak-edit-form-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.pajak-edit-form-controls label {
+    font-weight: bold;
+    color: #555;
+}
+
+.pajak-edit-selector { /* Menggunakan .pajak-edit-selector untuk konsistensi */
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    background-color: #f8f8f8;
+}
+
+.pajak-edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.pajak-edit-form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.pajak-edit-form-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.pajak-edit-input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.pajak-edit-input:focus {
+    border-color: #28a745;
+    outline: none;
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.2);
+}
+
+.pajak-edit-save-button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.pajak-edit-save-button:hover {
+    background-color: #0056b3;
+}
+
+.pajak-edit-status-message {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.9em;
+    color: #333;
+}

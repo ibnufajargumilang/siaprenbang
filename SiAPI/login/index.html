@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Edit Data Pajak</title>
+    <link rel="stylesheet" href="style.css">
+    </head>
+<body>
+
+    <div class="pajak-app-header">
+        <div class="pajak-app-title">Aplikasi Edit Data Pajak</div>
+        <div class="pajak-app-info">
+            <span id="datetime"></span>
+            <span class="separator">|</span>
+            <span id="userStatus" class="pajak-auth-user-status">Belum Login</span> <button id="authButton" class="pajak-auth-button">Login</button>
+        </div>
+    </div>
+
+    <div class="pajak-app-container">
+        <div id="editFormContainer" class="pajak-app-form-container" style="display: none;">
+            <h2 class="form-title">Edit Data Pajak</h2>
+            <p class="pajak-edit-warning-message">
+                Anda dapat mengedit data pajak daerah di sini. Pastikan data yang dimasukkan akurat.
+            </p>
+            <form id="editPajakForm" class="pajak-edit-form">
+                <div class="pajak-edit-form-controls">
+                    <div class="pajak-edit-form-group">
+                        <label for="editJenisPajakSelector">Pilih Jenis Pajak:</label>
+                        <select id="editJenisPajakSelector" class="pajak-edit-selector">
+                            <option value="" disabled selected>Pilih Jenis Pajak</option>
+                            </select>
+                    </div>
+                    <div class="pajak-edit-form-group">
+                        <label for="editYearSelector">Pilih Tahun:</label>
+                        <select id="editYearSelector" class="pajak-edit-selector">
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="pajak-edit-form-group">
+                    <label for="editTarget">Target (Rp):</label>
+                    <input type="number" id="editTarget" step="1" min="0" class="pajak-edit-input">
+                </div>
+                <div class="pajak-edit-form-group">
+                    <label for="editRealisasiSdTahun">Realisasi s.d. Tahun (Rp):</label>
+                    <input type="number" id="editRealisasiSdTahun" step="1" min="0" class="pajak-edit-input">
+                </div>
+                <div class="pajak-edit-form-group">
+                    <label for="editRealisasiTahunSebelumnya">Realisasi Tahun Sebelumnya (Rp):</label>
+                    <input type="number" id="editRealisasiTahunSebelumnya" step="1" min="0" class="pajak-edit-input">
+                </div>
+                <button type="submit" id="savePajakData" class="pajak-edit-save-button">Simpan Perubahan</button>
+                <span id="editStatusMessage" class="pajak-edit-status-message"></span>
+            </form>
+        </div>
+    </div>
+
+    <div id="loginModal" class="pajak-auth-modal">
+        <div class="pajak-auth-modal-content">
+            <span class="pajak-auth-close-button">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm" class="pajak-auth-form">
+                <div class="pajak-auth-form-group">
+                    <label for="loginEmail">Email:</label>
+                    <input type="email" id="loginEmail" required class="pajak-auth-input">
+                </div>
+                <div class="pajak-auth-form-group">
+                    <label for="loginPassword">Password:</label>
+                    <input type="password" id="loginPassword" required class="pajak-auth-input">
+                </div>
+                <button type="submit" class="pajak-auth-submit-button">Login</button>
+                <p id="loginError" class="pajak-auth-status-message pajak-auth-status-error"></p>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js" type="module"></script>
+</body>
+</html>

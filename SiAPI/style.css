@@ -1,0 +1,314 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7f6;
+    color: #333;
+    line-height: 1.6;
+}
+
+.pajak-app-header {
+    background-color: #007bff;
+    color: white;
+    padding: 20px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.pajak-app-title {
+    font-size: 2.2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.pajak-app-info {
+    font-size: 1.1em;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    /* Memastikan responsif di layar kecil */
+    justify-content: center;
+}
+
+.pajak-app-info span {
+    margin: 0 8px;
+}
+
+.pajak-app-info .separator {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+#totalRealisasiCounter {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #ffd700;
+    /* Warna kuning emas untuk highlight */
+    transition: transform 0.2s ease-out;
+    /* Transisi untuk animasi */
+}
+
+#totalRealisasiCounter.pajak-app-highlight-anim {
+    animation: highlightBounce 1s ease-in-out;
+}
+
+@keyframes highlightBounce {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.pajak-app-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 20px auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Chart Container */
+.pajak-app-chart-container {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.pajak-app-chart-container h2 {
+    color: #007bff;
+    font-size: 1.8em;
+    margin-bottom: 15px;
+}
+
+.chart-overall-total {
+    font-size: 1.8em;
+    /* Ukuran font lebih besar */
+    font-weight: bold;
+    color: #28a745;
+    /* Warna hijau untuk total utama chart */
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #e9f7ee;
+    border-radius: 5px;
+    display: inline-block;
+    /* Agar background dan padding menyesuaikan konten */
+}
+
+
+/* Tables Container */
+.pajak-app-tables-container {
+    display: grid;
+    grid-template-columns: 1fr; /* Setiap item akan mengambil 100% lebar yang tersedia */
+    gap: 30px;
+}
+
+.pajak-app-table-wrapper {
+    background-color: #fcfcfc;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.03);
+    overflow: hidden;
+    /* Pastikan scroll container tidak meluber */
+}
+
+.pajak-app-table-wrapper h3 {
+    color: #444;
+    font-size: 1.4em;
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+}
+
+.table-scroll-container {
+    overflow-x: auto;
+    /* Aktifkan scrolling horizontal untuk tabel */
+    max-width: 100%;
+}
+
+.pajak-app-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    min-width: 800px;
+    /* Lebar minimum untuk tabel agar tidak terlalu sempit */
+}
+
+.pajak-app-table thead th {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 15px;
+    text-align: center;
+    border: 1px solid #0056b3;
+    font-size: 0.9em;
+    white-space: nowrap;
+    /* Mencegah teks header wrapping */
+}
+
+.pajak-app-table tbody td {
+    padding: 10px 15px;
+    text-align: center;
+    border: 1px solid #ddd;
+    font-size: 0.85em;
+    white-space: nowrap;
+    /* Mencegah teks data wrapping */
+}
+
+.pajak-app-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.pajak-app-table tbody tr:hover {
+    background-color: #e9f0f8;
+}
+
+.pajak-app-left {
+    text-align: left !important;
+    /* Untuk kolom Jenis Pajak */
+}
+
+.pajak-app-table tfoot td {
+    background-color: #eaf4ff;
+    font-weight: bold;
+    padding: 12px 15px;
+    text-align: center;
+    border: 1px solid #cce0ff;
+    font-size: 0.9em;
+    white-space: nowrap;
+}
+
+.pajak-app-table tfoot .total-label {
+    text-align: left !important;
+    color: #0056b3;
+}
+
+/* CSS baru untuk menyembunyikan elemen */
+.hidden {
+    display: none !important;
+}
+
+/* Styling untuk dropdown tahun */
+.year-selection-container {
+    margin-bottom: 20px;
+    text-align: center;
+    padding: 15px;
+    background-color: #eaf4ff;
+    border-radius: 8px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+}
+
+.year-selection-container label {
+    font-size: 1.1em;
+    color: #0056b3;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.year-selector {
+    padding: 8px 15px;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    background-color: white;
+    font-size: 1em;
+    color: #333;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.year-selector:focus {
+    border-color: #0056b3;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+/* Specific styling for the new Jenis Pajak chart container */
+.jenis-pajak-chart-container {
+    margin-top: 40px; /* Memberi jarak dari tabel di atasnya */
+    border-top: 1px solid #e0e0e0; /* Garis pemisah */
+    padding-top: 20px;
+}
+
+/* Styles for D3.js chart */
+/* Removed .chart-container styles that conflicted with overall layout */
+
+.chart-title {
+    font-size: 1.75rem; /* Ukuran judul */
+    font-weight: bold;
+    color: #334155; /* Warna teks gelap */
+    text-align: center;
+}
+
+.legend-container {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1rem;
+    flex-wrap: wrap; /* Agar responsif pada layar kecil */
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    color: #475569;
+}
+
+.legend-color-box {
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 0.25rem;
+}
+
+.color-green {
+    background-color: #10B981; /* Hijau untuk zona surplus */
+}
+
+.color-red {
+    background-color: #EF4444; /* Merah untuk zona shortfall */
+}
+
+.tooltip {
+    position: absolute;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    background: #334155;
+    color: white;
+    border-radius: 0.5rem;
+    pointer-events: none;
+    font-size: 0.875rem;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+/* Styling untuk SVG */
+#differenceBarChart .axis path,
+#differenceBarChart .axis line {
+    fill: none;
+    stroke: #cbd5e1; /* Warna garis sumbu */
+    shape-rendering: crispEdges;
+}
+
+#differenceBarChart .axis text {
+    font-size: 0.875rem;
+    fill: #64748B; /* Warna teks sumbu */
+}
+
+#differenceBarChart .grid line {
+    stroke: #e2e8f0; /* Warna garis grid */
+    stroke-opacity: 0.7;
+    shape-rendering: crispEdges;
+}
+
+/* Menghapus gaya zero-line karena bar akan selalu ke atas */
+/* #differenceBarChart .zero-line {
+    stroke: #64748B;
+    stroke-width: 1.5;
+} */
