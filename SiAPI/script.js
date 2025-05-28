@@ -544,7 +544,7 @@ function populateTable(year, data) {
         const realisasiPrevYear = parseNumeric(yearData.Realisasi_Tahun_Sebelumnya || 0);
 
         const persentase = (target !== 0) ? (realisasi / target) * 100 : 0;
-        const selisih = target - realisasi;
+        const selisih = realisasi - target;
         const kenaikan = realisasi - realisasiPrevYear;
         const kenaikanPersen = (realisasiPrevYear !== 0) ? (kenaikan / realisasiPrevYear) * 100 : 0;
 
@@ -571,7 +571,7 @@ function populateTable(year, data) {
     const totalPersentaseRealisasi = (totalTarget !== 0) ? (totalRealisasi / totalTarget) * 100 : 0;
     const totalKenaikan = totalRealisasi - totalRealisasiPrevYearAccumulated;
     const totalKenaikanPersen = (totalRealisasiPrevYearAccumulated !== 0) ? (totalKenaikan / totalRealisasiPrevYearAccumulated) * 100 : 0;
-    const totalSelisihFooter = totalTarget - totalRealisasi;
+    const totalSelisihFooter = totalRealisasi - totalTarget;
 
     document.getElementById(`totalTarget${year}`).textContent = formatRupiah(totalTarget);
     document.getElementById(`totalRealisasi${year}`).textContent = formatRupiah(totalRealisasi);
