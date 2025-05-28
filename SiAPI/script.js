@@ -89,7 +89,7 @@ function animateNumber(element, start, end, duration = 1000) {
 // Update waktu realtime
 function updateDateTime() {
     const now = new Date();
-    const options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const dateStr = now.toLocaleDateString('id-ID', options);
     const timeStr = now.toLocaleTimeString('id-ID');
     document.getElementById("datetime").innerText = `${dateStr} - ${timeStr}`;
@@ -169,11 +169,11 @@ function drawRealisasiChart(firebaseData) {
     if (totalDisplayElement) {
         // Menampilkan total realisasi atau target berdasarkan apa yang dipilih
         if (showRealisasiOverall && showTargetOverall) {
-            totalDisplayElement.textContent = `Realisasi: ${formatRupiah(totalRealisasiOverallValue)} | Target: ${formatRupiah(totalTargetOverallValue)}`;
+            totalDisplayElement.innerHTML = `<div class="chart-card-overall-flex"><div class="chart-card-overall-realisasi">${formatRupiah(totalRealisasiOverallValue)}</div><div class="chart-card-overall-target">${formatRupiah(totalTargetOverallValue)}</di></div>`;
         } else if (showRealisasiOverall) {
-            totalDisplayElement.textContent = `Total Realisasi: ${formatRupiah(totalRealisasiOverallValue)}`;
+            totalDisplayElement.innerHTML = `<div class="chart-card-overall-flex"><div class="chart-card-overall-realisasi">${formatRupiah(totalRealisasiOverallValue)}</div></div>`;
         } else if (showTargetOverall) {
-            totalDisplayElement.textContent = `Total Target: ${formatRupiah(totalTargetOverallValue)}`;
+            totalDisplayElement.innerHTML = `<div class="chart-card-overall-flex"><div class="chart-card-overall-target">${formatRupiah(totalTargetOverallValue)}</div></div>`;
         } else {
             totalDisplayElement.textContent = ''; // Kosongkan jika tidak ada yang dipilih
         }
@@ -403,7 +403,7 @@ function drawDifferenceBarChartGoogle(firebaseData, selectedYear) {
     dataTable.addColumn('string', 'Jenis Pajak');
     dataTable.addColumn('number', 'Perubahan (%)');
     dataTable.addColumn({ type: 'string', role: 'style' }); // Untuk warna bar
-    dataTable.addColumn({ type: 'string', role: 'tooltip', p: {'html': true} }); // Untuk tooltip kustom (HTML)
+    dataTable.addColumn({ type: 'string', role: 'tooltip', p: { 'html': true } }); // Untuk tooltip kustom (HTML)
     dataTable.addColumn({ type: 'string', role: 'annotation' }); // Untuk label persentase di bar
 
     const chartData = [];

@@ -7,64 +7,6 @@ body {
     line-height: 1.6;
 }
 
-.pajak-app-header {
-    background-color: #007bff;
-    color: white;
-    padding: 20px 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.pajak-app-title {
-    font-size: 2.2em;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.pajak-app-info {
-    font-size: 1.1em;
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    /* Memastikan responsif di layar kecil */
-    justify-content: center;
-}
-
-.pajak-app-info span {
-    margin: 0 8px;
-}
-
-.pajak-app-info .separator {
-    color: rgba(255, 255, 255, 0.7);
-}
-
-#totalRealisasiCounter {
-    font-size: 1.2em;
-    font-weight: bold;
-    color: #ffd700;
-    /* Warna kuning emas untuk highlight */
-    transition: transform 0.2s ease-out;
-    /* Transisi untuk animasi */
-}
-
-#totalRealisasiCounter.pajak-app-highlight-anim {
-    animation: highlightBounce 1s ease-in-out;
-}
-
-@keyframes highlightBounce {
-
-    0%,
-    100% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.05);
-    }
-}
-
 .pajak-app-container {
     padding: 20px;
     max-width: 1200px;
@@ -74,37 +16,12 @@ body {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
-/* Chart Container */
-.pajak-app-chart-container {
-    margin-bottom: 40px;
-    text-align: center;
-}
-
-.pajak-app-chart-container h2 {
-    color: #007bff;
-    font-size: 1.8em;
-    margin-bottom: 15px;
-}
-
-.chart-overall-total {
-    font-size: 1.8em;
-    /* Ukuran font lebih besar */
-    font-weight: bold;
-    color: #28a745;
-    /* Warna hijau untuk total utama chart */
-    margin-bottom: 20px;
-    padding: 10px;
-    background-color: #e9f7ee;
-    border-radius: 5px;
-    display: inline-block;
-    /* Agar background dan padding menyesuaikan konten */
-}
-
 
 /* Tables Container */
 .pajak-app-tables-container {
     display: grid;
-    grid-template-columns: 1fr; /* Setiap item akan mengambil 100% lebar yang tersedia */
+    grid-template-columns: 1fr;
+    /* Setiap item akan mengambil 100% lebar yang tersedia */
     gap: 30px;
 }
 
@@ -115,14 +32,13 @@ body {
     padding: 20px;
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.03);
     overflow: hidden;
-    /* Pastikan scroll container tidak meluber */
 }
 
 .pajak-app-table-wrapper h3 {
-    color: #444;
-    font-size: 1.4em;
-    margin-top: 0;
+    color: #007bff;
+    font-size: 1.2em;
     margin-bottom: 15px;
+    font-weight: bold;
     border-bottom: 2px solid #f0f0f0;
     padding-bottom: 10px;
 }
@@ -230,8 +146,10 @@ body {
 
 /* Specific styling for the new Jenis Pajak chart container */
 .jenis-pajak-chart-container {
-    margin-top: 40px; /* Memberi jarak dari tabel di atasnya */
-    border-top: 1px solid #e0e0e0; /* Garis pemisah */
+    margin-top: 40px;
+    /* Memberi jarak dari tabel di atasnya */
+    border-top: 1px solid #e0e0e0;
+    /* Garis pemisah */
     padding-top: 20px;
 }
 
@@ -239,9 +157,11 @@ body {
 /* Removed .chart-container styles that conflicted with overall layout */
 
 .chart-title {
-    font-size: 1.75rem; /* Ukuran judul */
+    font-size: 1.75rem;
+    /* Ukuran judul */
     font-weight: bold;
-    color: #334155; /* Warna teks gelap */
+    color: #334155;
+    /* Warna teks gelap */
     text-align: center;
 }
 
@@ -250,7 +170,8 @@ body {
     justify-content: center;
     gap: 1.5rem;
     margin-top: 1rem;
-    flex-wrap: wrap; /* Agar responsif pada layar kecil */
+    flex-wrap: wrap;
+    /* Agar responsif pada layar kecil */
 }
 
 .legend-item {
@@ -268,11 +189,13 @@ body {
 }
 
 .color-green {
-    background-color: #10B981; /* Hijau untuk zona surplus */
+    background-color: #10B981;
+    /* Hijau untuk zona surplus */
 }
 
 .color-red {
-    background-color: #EF4444; /* Merah untuk zona shortfall */
+    background-color: #EF4444;
+    /* Merah untuk zona shortfall */
 }
 
 .tooltip {
@@ -292,17 +215,20 @@ body {
 #differenceBarChart .axis path,
 #differenceBarChart .axis line {
     fill: none;
-    stroke: #cbd5e1; /* Warna garis sumbu */
+    stroke: #cbd5e1;
+    /* Warna garis sumbu */
     shape-rendering: crispEdges;
 }
 
 #differenceBarChart .axis text {
     font-size: 0.875rem;
-    fill: #64748B; /* Warna teks sumbu */
+    fill: #64748B;
+    /* Warna teks sumbu */
 }
 
 #differenceBarChart .grid line {
-    stroke: #e2e8f0; /* Warna garis grid */
+    stroke: #e2e8f0;
+    /* Warna garis grid */
     stroke-opacity: 0.7;
     shape-rendering: crispEdges;
 }
@@ -312,3 +238,159 @@ body {
     stroke: #64748B;
     stroke-width: 1.5;
 } */
+
+/* Media query untuk Seluler*/
+#totalRealisasiCounter {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #ffd700;
+    transition: transform 0.2s ease-out;
+}
+
+#totalRealisasiCounter.pajak-app-highlight-anim {
+    animation: highlightBounce 1s ease-in-out;
+}
+
+#datetime {
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+#jumlahJenisPajak {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.pajak-app-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+}
+
+.pajak-app-header {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Chart Container */
+.pajak-app-chart-container {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.pajak-app-chart-container h2 {
+    color: #007bff;
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.chart-overall-total {
+    font-size: 1.4em;
+    font-weight: bold;
+    margin-bottom: 20px;
+    padding: 10px;
+    display: inline-block;
+}
+
+.chart-card-overall-flex {
+    display: flex;
+    gap: 10px;
+    font-size: 0.9rem;
+}
+
+.chart-card-overall-realisasi {
+    color: #007bff;
+    background-color: #e9f7ee;
+    border: 3px solid #007bff;
+    border-radius: 15px;
+    padding: 5px 15px;
+
+}
+
+.chart-card-overall-target {
+    color: #ff9800;
+    background-color: #e9f7ee;
+    border: 3px solid #ff9800;
+    border-radius: 15px;
+    padding: 5px 15px;
+}
+
+.target-checkbox-container input[type="checkbox"]:checked~.custom-checkbox-checkmark {
+    background-color: #ff9800;
+    /* Orange background when checked */
+    border-color: #ff9800;
+    /* Orange border when checked */
+}
+
+.chart-toggle-options {
+    padding-top: 10px;
+}
+
+/* Media query untuk Tablet (misalnya, lebar layar antara 768px dan 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .pajak-app-title {
+        font-size: 2rem;
+    }
+
+    #datetime {
+        margin: 5px 0;
+    }
+
+    .pajak-app-chart-container h2 {
+        font-size: 1.8em;
+    }
+
+    .chart-card-overall-flex {
+        font-size: 1.1rem;
+    }
+
+    .pajak-app-table-wrapper h3 {
+        font-size: 1.8rem;
+    }
+}
+
+/* Media query untuk Desktop (misalnya, lebar layar lebih dari 1024px) */
+@media (min-width: 1025px) {
+    .pajak-app-title {
+        font-size: 2.2rem;
+    }
+
+    .pajak-app-header {
+        background-color: #007bff;
+        color: white;
+        padding-top: 10px;
+        text-align: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    #datetime {
+        margin: 5px 0;
+    }
+
+    .pajak-app-chart-container h2 {
+        font-size: 2rem;
+    }
+
+    .chart-card-overall-flex {
+        font-size: 1.4rem;
+    }
+
+    .pajak-app-table-wrapper h3 {
+        font-size: 2rem;
+    }
+}
+
+@keyframes highlightBounce {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}

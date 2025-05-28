@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,18 +8,15 @@
     <link rel="stylesheet" href="style.css">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    </head>
+</head>
+
 <body>
 
     <div class="pajak-app-header">
-        <div class="pajak-app-title">Dashboard Realisasi Pajak Daerah</div>
-        <div class="pajak-app-info">
-            <span id="datetime"></span>
-            <span class="separator">|</span>
-            Total Realisasi Pajak Tahun 2025: <span id="totalRealisasiCounter" data-last-value="0">Rp 0</span>
-            <span class="separator">|</span>
-            Jumlah Jenis Pajak: <span id="jumlahJenisPajak">0 Jenis Pajak</span>
-        </div>
+        <div class="pajak-app-title">Pajak Jasa Daerah Lainnya - Kabupaten Indramayu</div>
+        <div id="datetime"></div>
+        <div id="totalRealisasiCounter" data-last-value="0">Rp 0</div>
+        <div id="jumlahJenisPajak">0 Jenis Pajak</div>
     </div>
 
     <div class="pajak-app-container">
@@ -28,15 +26,16 @@
             <div class="year-selection-container">
                 <div class="chart-toggle-options">
                     <label>
-                        <input type="checkbox" id="showRealisasiOverall" checked> Tampilkan Realisasi
+                        <input type="checkbox" id="showRealisasiOverall" checked> Realisasi
                     </label>
                     <label>
-                        <input type="checkbox" id="showTargetOverall" checked> Tampilkan Target
+                        <input type="checkbox" id="showTargetOverall" checked> <span
+                            style="color: #ff9800;">Target</span>
                     </label>
                 </div>
             </div>
             <div id="totalRealisasiOverallChartData" class="chart-overall-total">
-                </div>
+            </div>
             <div id="realisasiChart" style="width: 100%; height: 400px;"></div>
         </div>
 
@@ -270,13 +269,13 @@
                 <label for="jenisPajakSelector">Pilih Jenis Pajak:</label>
                 <select id="jenisPajakSelector" class="year-selector">
                     <option value="All">Semua Jenis Pajak</option>
-                    </select>
+                </select>
                 <div class="chart-toggle-options">
                     <label>
-                        <input type="checkbox" id="showRealisasiArea" checked> Tampilkan Realisasi
+                        <input type="checkbox" id="showRealisasiArea" checked> Realisasi
                     </label>
                     <label>
-                        <input type="checkbox" id="showTargetArea" checked> Tampilkan Target
+                        <input type="checkbox" id="showTargetArea" checked> Target
                     </label>
                 </div>
             </div>
@@ -296,7 +295,8 @@
                     <option value="2020">2020 vs 2019</option>
                 </select>
             </div>
-            <div id="differenceBarChart" style="width: 100%; height: 500px;"></div> <div class="legend-container">
+            <div id="differenceBarChart" style="width: 100%; height: 500px;"></div>
+            <div class="legend-container">
                 <div class="legend-item">
                     <div class="legend-color-box color-green"></div>
                     <span>Zona Hijau: Realisasi Sekarang > Realisasi Tahun Sebelumnya (Kelebihan)</span>
@@ -307,7 +307,8 @@
                 </div>
             </div>
         </div>
-        </div>
+    </div>
     <script type="module" src="script.js"></script>
 </body>
+
 </html>
